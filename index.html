@@ -668,6 +668,100 @@
                 display: none;
             }
         }
+
+        @media (max-width: 768px) {
+            .main-content {
+                display: flex;
+                flex-direction: column;
+                padding: 20px 15px;
+                gap: 20px;
+            }
+        
+            .main-story {
+                padding-right: 0;
+            }
+        
+            .story-text {
+                columns: 1;
+                column-gap: 0;
+                column-rule: none;
+            }
+        
+            .headline {
+                font-size: 28px;
+            }
+        
+            .byline {
+                font-size: 12px;
+            }
+        
+            .sidebar {
+                padding-left: 0;
+                gap: 15px;
+            }
+        
+            .sidebar-section {
+                padding: 15px;
+            }
+        
+            .sidebar-title {
+                font-size: 18px;
+            }
+        
+            .pullquote {
+                font-size: 18px;
+                padding: 20px;
+            }
+        
+            .bottom-stories {
+                display: flex;
+                flex-direction: column;
+                padding: 0 15px 20px;
+                gap: 20px;
+            }
+        
+            .bottom-story {
+                padding: 15px;
+            }
+        
+            .bottom-headline {
+                font-size: 20px;
+            }
+        
+            .masthead {
+                font-size: 40px;
+                letter-spacing: 1px;
+            }
+        
+            .tagline {
+                font-size: 11px;
+            }
+        
+            .issue-info {
+                font-size: 10px;
+            }
+        
+            .breaking-banner {
+                font-size: 12px;
+                padding: 8px;
+            }
+        
+            .photo-placeholder {
+                height: 150px;
+            }
+        
+            .footer {
+                font-size: 10px;
+                padding: 15px;
+            }
+        
+            .footer::before {
+                font-size: 12px;
+                letter-spacing: 5px;
+            }
+        }
+
+
     </style>
 </head>
 <body>
