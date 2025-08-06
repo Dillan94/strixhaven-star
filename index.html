@@ -609,7 +609,7 @@
         /* Photo placeholder areas with magical borders */
         .photo-placeholder {
             width: 100%;
-            height: 200px;
+            height: 250px;
             border: 3px double #8B4513;
             background: linear-gradient(135deg, rgba(248, 245, 222, 0.3), rgba(139, 69, 19, 0.1));
             display: flex;
@@ -619,10 +619,23 @@
             font-family: 'Cinzel', serif;
             font-size: 14px;
             font-style: italic;
-            margin: 20px 0;
+            margin: 0 auto;
             position: relative;
             box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.2);
             animation: photoShimmer 4s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Custom image positions */
+        .muffin-photo img {
+            object-position: center 69%;
         }
         
         @keyframes photoShimmer {
@@ -689,9 +702,10 @@
                     <p>As of press time, faculty members have not responded to requests for comment about enhanced security measures or investigation protocols. This reporter will continue following this developing story.</p>
                 </div>
                 
-                <div class="photo-placeholder">
-                    [Magical Photo: Suspicious Muffins Found on Campus]
+                <div class="photo-placeholder muffin-photo">
+                    <img src="images/Muffin.png" alt="Suspicious Muffins">
                 </div>
+
             </div>
             
             <div class="sidebar">
@@ -739,8 +753,8 @@
                 <p>Firejolt Café owner Ellina Tanglewood has reportedly expressed enthusiasm for campus collaboration, though official participation remains unconfirmed. Plans allegedly include relay races, entertainment, and Iron-Lifters Society security.</p>
                 <p style="font-style: italic;"><em>Students interested in participating or attending should contact the Star for updates as this developing story unfolds.</em></p>
                 
-                <div class="photo-placeholder" style="height: 150px; margin-top: 15px;">
-                    [Magical Photo: Stadium Competition Plans]
+                <div class="photo-placeholder stadium" style="height: 150px; margin-top: 15px;">
+                    <img src="https://5e.tools/img/book/SCC/077-04-008.battle-of-strixhaven.webp" alt="Strixhaven Stadium">
                 </div>
             </div>
             
@@ -751,8 +765,8 @@
                 <p>Students also shared winter break experiences, including heroic adventures involving spectral threats to local communities. Such real-world application of academic theory exemplifies Strixhaven's commitment to practical magical education.</p>
                 <p>Meanwhile, research into advanced necromantic theory continues under proper faculty supervision, with emphasis on ethical applications and collaborative consultation between colleges.</p>
                 
-                <div class="photo-placeholder" style="height: 150px; margin-top: 15px;">
-                    [Magical Photo: Students in Examination]
+                <div class="photo-placeholder studying" style="height: 150px; margin-top: 15px;">
+                    <img src="https://5e.tools/img/book/SCC/050-03-026.biblioplex.webp" alt="Students Studying">
                 </div>
             </div>
         </div>
