@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Strixhaven Star - Magical Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cinzel:wght@400;600;900&family=Cinzel+Decorative:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=IM+Fell+DW+Pica:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IM Fell DW Pica', 'Book Antiqua', serif;
+            background: #2c2012;
+            padding: 20px;
+            color: #1A1C1A;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(139, 69, 19, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(160, 82, 45, 0.2), transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(210, 180, 140, 0.2), transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .newspaper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #F8F5DE;
+            position: relative;
+            box-shadow: 
+                0 0 100px rgba(0,0,0,0.8),
+                inset 0 0 120px rgba(139, 69, 19, 0.1),
+                inset 0 0 40px rgba(160, 82, 45, 0.05);
+            border: 3px solid #3a2818;
+            filter: sepia(15%) contrast(120%) brightness(95%);
+            animation: paperFloat 8s ease-in-out infinite;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 69, 19, 0.03) 2px,
+                    rgba(139, 69, 19, 0.03) 4px
+                ),
+                linear-gradient(
+                    to right,
+                    rgba(255,210,0,0.08),
+                    rgba(200, 160, 0, 0.03) 11%,
+                    transparent 35%,
+                    transparent 65%,
+                    rgba(200, 160, 0, 0.03) 89%,
+                    rgba(255,210,0,0.08)
+                );
+        }
+        
+        @keyframes paperFloat {
+            0%, 100% { transform: translateY(0) rotateX(0); }
+            50% { transform: translateY(-3px) rotateX(0.5deg); }
+        }
+        
+        /* Ornate border decoration */
+        .newspaper::before,
+        .newspaper::after {
+            content: '';
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #8B4513,
+                #8B4513 2px,
+                transparent 2px,
+                transparent 4px,
+                #8B4513 4px,
+                #8B4513 6px,
+                transparent 6px,
+                transparent 12px
+            );
+            animation: borderShimmer 15s linear infinite;
+        }
+        
+        .newspaper::before {
+            top: 10px;
+        }
+        
+        .newspaper::after {
+            bottom: 10px;
+        }
+        
+        @keyframes borderShimmer {
+            0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+            50% { filter: hue-rotate(10deg) brightness(1.2); }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1612 0%, #2c2012 50%, #1a1612 100%);
+            padding: 30px 20px 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 8px double #8B4513;
+            box-shadow: 
+                inset 0 -5px 20px rgba(0,0,0,0.5),
+                0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .header::before {
+            content: '✦ ✦ ✦';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #DAA520;
+            font-size: 20px;
+            letter-spacing: 20px;
+            animation: starTwinkle 3s ease-in-out infinite;
+        }
+        
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .masthead {
+            font-family: 'UnifrakturCook', 'Cinzel Decorative', fantasy;
+            font-size: 72px;
+            font-weight: 700;
+            color: #F8F5DE;
+            text-shadow: 
+                3px 3px 0 #000,
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                0 0 30px rgba(218, 165, 32, 0.8),
+                0 0 60px rgba(218, 165, 32, 0.4);
+            letter-spacing: 3px;
+            margin: 20px 0 10px;
+            animation: magicalGlow 4s ease-in-out infinite;
+            transform: perspective(500px) rotateX(5deg);
+        }
+        
+        @keyframes magicalGlow {
+            0%, 100% { 
+                text-shadow: 
+                    3px 3px 0 #000,
+                    -1px -1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px 1px 0 #000,
+                    1px 1px 0 #000,
+                    0 0 30px rgba(218, 165, 32, 0.8),
+                    0 0 60px rgba(218, 165, 32, 0.4);
+            }
+            50% { 
+                text-shadow: 
+                    3px 3px 0 #000,
+                    -1px -1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px 1px 0 #000,
+                    1px 1px 0 #000,
+                    0 0 40px rgba(218, 165, 32, 1),
+                    0 0 80px rgba(218, 165, 32, 0.6);
+            }
+        }
+        
+        .tagline {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            color: #DAA520;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .issue-info {
+            font-size: 11px;
+            color: #F8F5DE;
+            opacity: 0.8;
+            margin-top: 10px;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+        
+        .breaking-banner {
+            background: linear-gradient(90deg, #8B0000, #DC143C, #8B0000);
+            color: #F8F5DE;
+            padding: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 2px solid #4B0000;
+            border-bottom: 2px solid #4B0000;
+            animation: breakingPulse 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .breaking-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: breakingShine 3s linear infinite;
+        }
+        
+        @keyframes breakingPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes breakingShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: calc(100% - 40px);
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                #8B4513 10%,
+                #8B4513 90%,
+                transparent
+            );
+            opacity: 0.3;
+        }
+        
+        .main-story {
+            padding-right: 20px;
+        }
+        
+        .headline {
+            font-family: 'Cinzel Decorative', 'UnifrakturCook', serif;
+            font-size: 42px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            color: #1A1C1A;
+            text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.2);
+            border-bottom: 4px double #8B4513;
+            padding-bottom: 15px;
+            letter-spacing: -1px;
+            animation: headlineAppear 1s ease-out;
+        }
+        
+        @keyframes headlineAppear {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .byline {
+            font-family: 'IM Fell English', serif;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #5a4a3a;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .story-text {
+            font-size: 15px;
+            line-height: 1.7;
+            text-align: justify;
+            columns: 2;
+            column-gap: 25px;
+            column-rule: 1px solid rgba(139, 69, 19, 0.2);
+            font-family: 'IM Fell DW Pica', serif;
+        }
+        
+        .story-text p {
+            margin-bottom: 12px;
+            text-indent: 1.5em;
+        }
+        
+        .story-text p:first-of-type::first-letter {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 72px;
+            float: left;
+            line-height: 60px;
+            padding-right: 8px;
+            margin-top: 4px;
+            color: #8B4513;
+            text-shadow: 
+                2px 2px 4px rgba(0,0,0,0.3),
+                0 0 20px rgba(218, 165, 32, 0.3);
+            font-weight: 700;
+        }
+        
+        .pullquote {
+            background: linear-gradient(135deg, rgba(248, 245, 222, 0.9), rgba(242, 218, 182, 0.9));
+            border: 3px double #8B4513;
+            border-left-width: 8px;
+            border-right-width: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            font-size: 22px;
+            font-weight: 600;
+            font-style: italic;
+            text-align: center;
+            grid-column: 1 / -1;
+            font-family: 'Cinzel', serif;
+            color: #3a2818;
+            position: relative;
+            box-shadow: 
+                0 5px 15px rgba(0,0,0,0.2),
+                inset 0 0 30px rgba(218, 165, 32, 0.1);
+            animation: quoteFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes quoteFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .pullquote::before,
+        .pullquote::after {
+            content: '"';
+            font-size: 60px;
+            color: #8B4513;
+            opacity: 0.3;
+            position: absolute;
+        }
+        
+        .pullquote::before {
+            top: -10px;
+            left: 20px;
+        }
+        
+        .pullquote::after {
+            bottom: -30px;
+            right: 20px;
+        }
+        
+        .sidebar {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .sidebar-section {
+            background: linear-gradient(135deg, rgba(248, 245, 222, 0.7), rgba(242, 218, 182, 0.5));
+            border: 2px solid #8B4513;
+            padding: 20px;
+            position: relative;
+            box-shadow: 
+                3px 3px 10px rgba(0,0,0,0.2),
+                inset 0 0 20px rgba(139, 69, 19, 0.05);
+            animation: sectionFloat 7s ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+        
+        @keyframes sectionFloat {
+            0%, 100% { transform: translateX(0) rotateY(0); }
+            50% { transform: translateX(-2px) rotateY(-0.5deg); }
+        }
+        
+        .sidebar-section:nth-child(1) { --delay: 0s; }
+        .sidebar-section:nth-child(2) { --delay: 0.5s; }
+        .sidebar-section:nth-child(3) { --delay: 1s; }
+        
+        .sidebar-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #3a2818;
+            text-transform: uppercase;
+            border-bottom: 3px double #8B4513;
+            padding-bottom: 8px;
+            letter-spacing: 1px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
+        }
+        
+        .gossip-section {
+            background: linear-gradient(135deg, 
+                rgba(255, 228, 225, 0.6), 
+                rgba(255, 240, 245, 0.5),
+                rgba(221, 160, 221, 0.2));
+            border: 3px double #8B008B;
+            box-shadow: 
+                0 0 20px rgba(139, 0, 139, 0.1),
+                3px 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .gossip-title {
+            color: #8B008B;
+            border-bottom-color: #8B008B;
+        }
+        
+        .event-section {
+            background: linear-gradient(135deg, 
+                rgba(230, 243, 255, 0.6), 
+                rgba(240, 248, 255, 0.5),
+                rgba(65, 105, 225, 0.1));
+            border: 3px double #4169E1;
+            box-shadow: 
+                0 0 20px rgba(65, 105, 225, 0.1),
+                3px 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .event-section .sidebar-title {
+            color: #2c4a8f;
+            border-bottom-color: #4169E1;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd, #f8e6a0);
+            border: 3px solid #856404;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0;
+            position: relative;
+            box-shadow: 
+                5px 5px 15px rgba(0,0,0,0.3),
+                inset 0 0 30px rgba(133, 100, 4, 0.1);
+            animation: warningPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes warningPulse {
+            0%, 100% { 
+                box-shadow: 
+                    5px 5px 15px rgba(0,0,0,0.3),
+                    inset 0 0 30px rgba(133, 100, 4, 0.1);
+            }
+            50% { 
+                box-shadow: 
+                    5px 5px 15px rgba(0,0,0,0.3),
+                    inset 0 0 40px rgba(133, 100, 4, 0.2),
+                    0 0 20px rgba(255, 243, 205, 0.5);
+            }
+        }
+        
+        .warning-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .bottom-stories {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 0 30px 30px;
+            border-top: 5px double #8B4513;
+            margin-top: 30px;
+            position: relative;
+        }
+        
+        .bottom-stories::before {
+            content: '⟦ ◆ ◆ ◆ ⟧';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #F8F5DE;
+            padding: 0 20px;
+            color: #8B4513;
+            font-size: 20px;
+            letter-spacing: 5px;
+        }
+        
+        .bottom-story {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(250, 250, 250, 0.5), rgba(248, 245, 222, 0.7));
+            border: 2px solid #8B4513;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+            animation: storyAppear 1.5s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .bottom-story:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+        
+        .bottom-story:nth-child(2) {
+            animation-delay: 0.7s;
+        }
+        
+        @keyframes storyAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px) rotateX(-10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+        
+        .bottom-headline {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #3a2818;
+            text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
+            border-bottom: 2px solid #8B4513;
+            padding-bottom: 8px;
+        }
+        
+        .bottom-story p {
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1612, #2c2012);
+            border-top: 3px double #DAA520;
+            font-size: 11px;
+            color: #F8F5DE;
+            font-style: italic;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '☆ ☆ ☆';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #1a1612, #2c2012);
+            padding: 0 15px;
+            color: #DAA520;
+            font-size: 16px;
+            letter-spacing: 10px;
+        }
+        
+        /* Magical floating particles effect */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        .newspaper::after {
+            content: '';
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #DAA520, transparent);
+            animation: floatUp 20s linear infinite;
+            left: random(100%);
+            opacity: 0;
+        }
+        
+        /* Photo placeholder areas with magical borders */
+        .photo-placeholder {
+            width: 100%;
+            height: 200px;
+            border: 3px double #8B4513;
+            background: linear-gradient(135deg, rgba(248, 245, 222, 0.3), rgba(139, 69, 19, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8B4513;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-style: italic;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.2);
+            animation: photoShimmer 4s ease-in-out infinite;
+        }
+        
+        @keyframes photoShimmer {
+            0%, 100% {
+                box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.2);
+            }
+            50% {
+                box-shadow: 
+                    inset 0 0 40px rgba(139, 69, 19, 0.3),
+                    0 0 20px rgba(218, 165, 32, 0.2);
+            }
+        }
+        
+        @media print {
+            body { 
+                background: white; 
+                padding: 0; 
+            }
+            .newspaper { 
+                box-shadow: none;
+                animation: none;
+                filter: none;
+            }
+            .breaking-banner::before,
+            .newspaper::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="newspaper">
+        <div class="header">
+            <h1 class="masthead">The Strixhaven Star</h1>
+            <div class="tagline">Where All Colleges Find Their News: Serving Strixhaven for Centuries</div>
+            <div class="issue-info">Weekly Strixhaven News • Issue #36382 • First Week Back • 5 Knuts</div>
+        </div>
+        
+        <div class="breaking-banner">
+            ★ BREAKING NEWS ★ CAMPUS SAFETY ★ STUDENT INVESTIGATION ★ COMPETITION ANNOUNCEMENT ★
+        </div>
+        
+        <div class="main-content">
+            <div class="main-story">
+                <h2 class="headline">Mystery Muffin Menace Raises Campus Safety Concerns</h2>
+                <div class="byline">By Mina Lee, Investigative Reporter</div>
+                <div class="story-text">
+                    <p>As students and faculty return from winter break to resume their studies, a troubling development has emerged that has campus security questioning food safety protocols. Unidentified confections bearing identical "secret admirer" messages have appeared across Strixhaven's campus, raising serious concerns about magical food security in our academic community.</p>
+                    
+                    <p>The investigation began when Greta Gorunn, a first-year Lorehold student and member of the Iron-Lifters Society, discovered a suspicious muffin near Strixhaven Stadium during her morning workout routine. The baked good came wrapped in a bag with a handwritten note claiming to be from a "secret admirer."</p>
+                    
+                    <p>"I was excited at first," Gorunn admitted during an exclusive interview. "Who doesn't want a secret admirer? But then I found out other students got the exact same thing, word for word."</p>
+                    
+                    <p>Further investigation revealed multiple students across different colleges discovered identical muffins and notes, all bearing the same unsophisticated handwriting. Analysis conducted by this reporter confirms the messages were written by a single individual, ruling out any coordinated effort by multiple students.</p>
+                    
+                    <p>Perhaps most concerning is the casual attitude some students have taken toward consuming unidentified magical items. Dream, a first year student who assisted in the investigation, expressed alarm at this trend.</p>
+                    
+                    <p>"Students should verify food is safe before eating anything found unattended - magical or otherwise," Dream emphasized. "Some have found muffins on tables and benches around campus. Do none of you have any caution? Have none of you been sick?"</p>
+                    
+                    <p>When asked about their own approach to mysterious food discoveries, students showed varying levels of caution. Some indicated they would discard suspicious items, while others admitted they might investigate the source of anonymous gifts.</p>
+                    
+                    <p>The incident has prompted calls for increased awareness about magical food safety. Students who discover any suspicious items are urged to report them to faculty immediately rather than attempting consumption.</p>
+                    
+                    <p>As of press time, faculty members have not responded to requests for comment about enhanced security measures or investigation protocols. This reporter will continue following this developing story.</p>
+                </div>
+                
+                <div class="photo-placeholder">
+                    [Magical Photo: Suspicious Muffins Found on Campus]
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-section event-section">
+                    <div class="sidebar-title">Campus Events</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; font-family: 'Cinzel', serif;">🌹 Rose Stage Festival</div>
+                    <p style="font-size: 13px; margin-bottom: 15px; line-height: 1.5;">Celebrate & perform at this year's festival! Join us for special performances by our students! Plus there will be delicious treats and many memories to be made!</p>
+                    
+                    <div style="font-weight: bold; margin-bottom: 8px; font-family: 'Cinzel', serif;">⚗️ DEVELOPING: Stadium Competition Rumors</div>
+                    <p style="font-size: 13px; line-height: 1.5;">First-year students reportedly planning ambitious alchemical event. Details developing - contact the Star if interested!</p>
+                </div>
+                
+                <div class="sidebar-section gossip-section">
+                    <div class="sidebar-title gossip-title">Campus Whispers</div>
+                    <div style="font-style: italic; margin-bottom: 10px; text-align: center; font-size: 12px;">by Grayson Wildemere</div>
+                    
+                    <p style="font-size: 13px; margin-bottom: 12px; line-height: 1.5;"><strong>Welcome Back, Strixhaven!</strong> After what promises to have been eventful winter breaks (rumors of ghostly plagues and heroic adventures abound), our campus buzzes with post-holiday energy and mysterious developments...</p>
+                    
+                    <p style="font-size: 13px; margin-bottom: 12px; line-height: 1.5;"><strong>Mysterious Meetings:</strong> What does our dramatic first-year Prismari bound want with a certain Witherbloom-esk necromancer? Quentillius was spotted requesting a private meeting at Archway Commons. Color this reporter intrigued...</p>
+                    
+                    <p style="font-size: 13px; margin-bottom: 12px; line-height: 1.5;"><strong>Evasive Interviews:</strong> Some students prove remarkably skilled at avoiding direct quotes during official newspaper investigations. One individual, when asked about mysterious campus developments, claimed to have "no real insights about this kind of thing." How conveniently modest...</p>
+                    
+                    <p style="font-size: 13px; margin-bottom: 12px; line-height: 1.5;"><strong>Café Champions:</strong> Firejolt Café experienced its smoothest morning rush in recent memory thanks to some helpful students. Rumor has it Ellina is so impressed she's offering permanent positions. Some students apparently know the value of good work!</p>
+                    
+                    <p style="font-size: 13px; line-height: 1.5;"><strong>Spellcasting Spectacle:</strong> Students near the Biblioplex witnessed quite the display when a certain skeleton familiar appeared in what witnesses described as "magical armor." Nothing says "subtle magic practice" like startling half the campus...</p>
+                </div>
+                
+                <div class="sidebar-section warning-box">
+                    <div class="warning-title">⚠️ Campus Safety Reminder</div>
+                    <p style="font-size: 12px; margin: 0; line-height: 1.5;">Never consume unidentified food items found on campus. All suspicious items should be reported to faculty immediately for magical analysis.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pullquote">
+            Students should verify food is safe before eating anything found unattended - magical or otherwise. Do none of you have any caution?
+        </div>
+        
+        <div class="bottom-stories">
+            <div class="bottom-story">
+                <h3 class="bottom-headline">Ambitious Competition Rumors Circulate Campus</h3>
+                <div class="byline">By Mina Lee and Grayson Wildemer, Campus Reporters</div>
+                <p>Sources close to the Strixhaven Star report whispers of an unprecedented student-organized alchemical competition potentially planned for Strixhaven Stadium. While details remain scarce, early reports suggest the ambitious event could involve multiple campus organizations and local eateries.</p>
+                <p>"A cross-business cooperative competition of alchemical beverages and treats," is how one organizer reportedly described the concept, emphasizing inclusivity across campus groups. The proposed event would represent the first competition of such scale organized entirely by first-year students.</p>
+                <p>Firejolt Café owner Ellina Tanglewood has reportedly expressed enthusiasm for campus collaboration, though official participation remains unconfirmed. Plans allegedly include relay races, entertainment, and Iron-Lifters Society security.</p>
+                <p style="font-style: italic;"><em>Students interested in participating or attending should contact the Star for updates as this developing story unfolds.</em></p>
+                
+                <div class="photo-placeholder" style="height: 150px; margin-top: 15px;">
+                    [Magical Photo: Stadium Competition Plans]
+                </div>
+            </div>
+            
+            <div class="bottom-story">
+                <h3 class="bottom-headline">Exam Season Brings Academic Excellence</h3>
+                <div class="byline">Staff Reporter</div>
+                <p>Professor Verda Laing's advanced Otyughs examination showcased exceptional student performance this week. Several students demonstrated mastery of complex Otyughs Lair Evidence and Guardian theory.</p>
+                <p>Students also shared winter break experiences, including heroic adventures involving spectral threats to local communities. Such real-world application of academic theory exemplifies Strixhaven's commitment to practical magical education.</p>
+                <p>Meanwhile, research into advanced necromantic theory continues under proper faculty supervision, with emphasis on ethical applications and collaborative consultation between colleges.</p>
+                
+                <div class="photo-placeholder" style="height: 150px; margin-top: 15px;">
+                    [Magical Photo: Students in Examination]
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p style="margin: 0 0 5px 0;"><strong>The Strixhaven Star</strong> - Printed by the Biblioplex Press • Distributed campus-wide • Submit news tips via owl to the Star office</p>
+            <p style="margin: 0;">*All quotes are paraphrased from interviews and campus conversations • Magical photographs courtesy of the Strixhaven Archives</p>
+        </div>
+    </div>
+</body>
+</html>
