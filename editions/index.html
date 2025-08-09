@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Strixhaven Star, Archive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Cinzel',serif;background:#2c2012;color:#F8F5DE;margin:0;padding:24px}
+    .wrap{max-width:900px;margin:0 auto;background:#1a1612;border:3px double #DAA520;padding:24px}
+    h1{margin:0 0 12px 0}
+    ul{list-style:none;margin:0;padding:0}
+    li{margin:10px 0;padding:10px;background:#2c2012;border:1px solid #DAA520}
+    a{color:#DAA520;text-decoration:underline}
+    .back{display:inline-block;margin-top:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Archive</h1>
+    <ul id="archive"></ul>
+    <a class="back" href="/">Back to latest issue</a>
+  </div>
+  <script>
+    fetch('editions.json')
+      .then(r => r.json())
+      .then(list => {
+        const ul = document.getElementById('archive');
+        list.forEach(e => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${e.slug}.html">Issue #${e.issue} — ${e.title}</a>`;
+          ul.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
