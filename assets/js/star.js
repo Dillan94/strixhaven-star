@@ -177,4 +177,134 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); revealAll(); }
       }, { once:true });
     }
+    // === Konami Easter Egg: Save Challenge ===
+    (function(){
+      // Config you change weekly
+      const WEEKLY = {
+        inspirationCode: 'GILDED MUFFIN',      // Tell DM this on success
+      };
+      const SAVES = ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma'];
+      const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      let idx = 0, armed = false;
+
+      // Build modal once
+      let backdrop, panel, titleEl, textEl, inputEl, submitBtn, cancelBtn, resultEl;
+      function ensureModal(){
+        if (backdrop) return;
+        backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop';
+        backdrop.setAttribute('role','dialog');
+        backdrop.setAttribute('aria-modal','true');
+
+        panel = document.createElement('div');
+        panel.className = 'modal-panel';
+
+        titleEl = document.createElement('h3');
+        titleEl.className = 'modal-title';
+
+        textEl = document.createElement('p');
+        textEl.className = 'modal-text';
+
+        inputEl = document.createElement('input');
+        inputEl.type = 'number';
+        inputEl.inputMode = 'numeric';
+        inputEl.min = '0';
+        inputEl.placeholder = 'Enter your roll';
+        inputEl.className = 'modal-input';
+
+        resultEl = document.createElement('div');
+        resultEl.className = 'modal-result';
+        resultEl.setAttribute('aria-live','polite');
+
+        const actions = document.createElement('div');
+        actions.className = 'modal-actions';
+
+        submitBtn = document.createElement('button');
+        submitBtn.type = 'button';
+        submitBtn.className = 'btn primary';
+        submitBtn.textContent = 'Submit';
+
+        cancelBtn = document.createElement('button');
+        cancelBtn.type = 'button';
+        cancelBtn.className = 'btn';
+        cancelBtn.textContent = 'Cancel';
+
+        actions.appendChild(submitBtn);
+        actions.appendChild(cancelBtn);
+
+        panel.appendChild(titleEl);
+        panel.appendChild(textEl);
+        panel.appendChild(inputEl);
+        panel.appendChild(resultEl);
+        panel.appendChild(actions);
+        backdrop.appendChild(panel);
+        document.body.appendChild(backdrop);
+
+        cancelBtn.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+        document.addEventListener('keydown', e => { if (backdrop && backdrop.classList.contains('open') && e.key === 'Escape') closeModal(); });
+      }
+
+      let current = null; // holds {save, dc}
+      function openModal(){
+        ensureModal();
+        backdrop.classList.add('open');
+        setTimeout(() => inputEl.focus(), 0);
+      }
+      function closeModal(){
+        if (!backdrop) return;
+        backdrop.classList.remove('open');
+        resultEl.textContent = '';
+        inputEl.value = '';
+        armed = false; // require re-entry of the code
+        idx = 0;
+      }
+
+      function startChallenge(){
+        const save = SAVES[Math.floor(Math.random()*SAVES.length)];
+        const dc = 10 + Math.floor(Math.random()*9); // 10..18
+        current = { save, dc };
+        titleEl.textContent = 'Magical Hazard Detected';
+        textEl.innerHTML = `Roll a <strong>${save}</strong> saving throw. Enter your result below.`;
+        resultEl.textContent = '';
+        openModal();
+      }
+
+      function submit(){
+        const val = parseInt(inputEl.value, 10);
+        if (Number.isNaN(val)) { resultEl.textContent = 'Enter a number.'; return; }
+        const { save, dc } = current || { save:'Unknown', dc: 15 };
+        if (val >= dc) {
+          resultEl.innerHTML = `Success on your <strong>${save}</strong> save. Tell your DM you have <strong>Inspiration</strong>. Code: <strong>${WEEKLY.inspirationCode}</strong>.`;
+        } else {
+          resultEl.innerHTML = `Failed the <strong>${save}</strong> save. Roll a <strong>D100</strong> and tell your DM your result.`;
+        }
+        // Lock buttons after result for this run
+        submitBtn.disabled = true;
+        setTimeout(() => { submitBtn.disabled = false; closeModal(); }, 7600);
+      }
+
+      // Wire submit
+      document.addEventListener('keydown', e => {
+        if (!backdrop || !backdrop.classList.contains('open')) return;
+        if (e.key === 'Enter') { submit(); }
+      });
+      if (!submitBtn) ensureModal();
+      submitBtn?.addEventListener('click', submit);
+
+      // Konami detector
+      document.addEventListener('keydown', e => {
+        const key = e.key.length === 1 ? e.key.toLowerCase() : e.key; // normalize
+        const expect = KONAMI[idx];
+        if (key === expect || (expect.length === 1 && key === expect)) {
+          idx += 1;
+          if (idx === KONAMI.length) {
+            armed = true;
+            startChallenge();
+          }
+        } else {
+          idx = (key === KONAMI[0]) ? 1 : 0; // allow immediate restart if pressing Up
+        }
+      });
+    })();
 });

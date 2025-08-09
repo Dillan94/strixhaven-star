@@ -826,3 +826,49 @@ body::before{
     100%{ background-position: 0 -240px, 0 -200px, 0 -260px }
   }
 }
+
+/* === Modal: Konami Save Challenge === */
+.modal-backdrop{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.60);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 9999;
+}
+.modal-backdrop.open{ display: flex }
+
+.modal-panel{
+  width: min(560px, 92vw);
+  background: #F8F5DE;
+  color: #3a2818;
+  border: 2px solid #8B4513;
+  box-shadow: 0 12px 32px rgba(0,0,0,.45), inset 0 0 18px rgba(139,69,19,.12);
+  padding: 18px 18px 14px;
+  font-family: 'IM Fell DW Pica','Book Antiqua',serif;
+  position: relative;
+}
+.modal-panel::before{
+  content:'✦';
+  position:absolute; right:10px; top:8px; opacity:.4
+}
+
+.modal-title{
+  font-family:'Cinzel', serif;
+  font-size: 22px; margin: 0 0 8px 0; color:#3a2818
+}
+.modal-text{ margin: 0 0 10px 0; line-height: 1.5 }
+
+.modal-input{
+  width: 140px; padding: 8px 10px; font-size: 16px;
+  border:1px solid #8B4513; background:#fffbe8
+}
+
+.modal-actions{ margin-top: 14px; display: flex; gap: 10px }
+.btn{
+  border:1px solid #8B4513; background:#f7ecd2; padding:8px 12px; cursor:pointer;
+  font-size:14px
+}
+.btn.primary{ background:#ead18f }
+.btn:hover{ filter: brightness(1.03) }
+
+.modal-result{ margin-top: 12px; font-weight: 600 }
