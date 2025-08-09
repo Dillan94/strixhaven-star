@@ -306,5 +306,60 @@ document.addEventListener('DOMContentLoaded', () => {
           idx = (key === KONAMI[0]) ? 1 : 0; // allow immediate restart if pressing Up
         }
       });
+
+      // Touch long-press on the hotspot triggers the challenge (mobile)
+      (() => {
+        const spotTouch = document.querySelector('[data-ink="trigger"]') || document.querySelector('.ink-hotspot');
+        if (!spotTouch) return;
+        let pressTimer, startX = 0, startY = 0;
+        const start = (e) => {
+          const t = e.touches?.[0]; if (!t) return;
+          startX = t.clientX; startY = t.clientY;
+          pressTimer = setTimeout(() => { startChallenge(); }, 900); // hold ~0.9s
+        };
+        const cancel = () => { if (pressTimer) clearTimeout(pressTimer); };
+        const move = (e) => {
+          const t = e.touches?.[0]; if (!t) return;
+          const dx = Math.abs(t.clientX - startX), dy = Math.abs(t.clientY - startY);
+          if (dx > 10 || dy > 10) cancel(); // moved too much, cancel
+        };
+        spotTouch.addEventListener('touchstart', start, { passive: true });
+        spotTouch.addEventListener('touchend', cancel);
+        spotTouch.addEventListener('touchcancel', cancel);
+        spotTouch.addEventListener('touchmove', move, { passive: true });
+      })();
+
+      // Swipe Konami on touch: U U D D L R L R (no B/A)
+      (() => {
+        if (!('ontouchstart' in window) && !(navigator.maxTouchPoints > 0)) return;
+
+        const wanted = ['U','U','D','D','L','R','L','R'];
+        let seq = [];
+        let startX = 0, startY = 0;
+
+        const onStart = (e) => {
+          const t = e.touches?.[0]; if (!t) return;
+          startX = t.clientX; startY = t.clientY;
+        };
+        const onEnd = (e) => {
+          const t = e.changedTouches?.[0]; if (!t) return;
+          const dx = t.clientX - startX;
+          const dy = t.clientY - startY;
+          const ax = Math.abs(dx), ay = Math.abs(dy);
+          if (ax < 24 && ay < 24) return; // too small, ignore
+          const dir = ay > ax ? (dy < 0 ? 'U' : 'D') : (dx < 0 ? 'L' : 'R');
+          seq.push(dir);
+          if (seq.length > 8) seq = seq.slice(-8); // keep last 8
+          clearTimeout(onEnd._t);
+          onEnd._t = setTimeout(() => { seq = []; }, 1500); // reset if slow
+          if (seq.join() === wanted.join()) {
+            seq = [];
+            startChallenge();
+          }
+        };
+
+        document.addEventListener('touchstart', onStart, { passive: true });
+        document.addEventListener('touchend', onEnd);
+      })();
     })();
 });
