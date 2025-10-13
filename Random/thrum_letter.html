@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Response - Master Thrum</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Crimson Text', serif;
+        }
+        
+        .letter-container {
+            max-width: 800px;
+            width: 100%;
+            background: linear-gradient(to bottom, #f4e8d0 0%, #e8dcc0 100%);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+                        inset 0 0 100px rgba(139,115,85,0.1);
+            border: 2px solid #8b7355;
+            position: relative;
+            padding: 60px 50px;
+        }
+        
+        .letter-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139,115,85,0.03) 2px,
+                    rgba(139,115,85,0.03) 4px
+                );
+            pointer-events: none;
+        }
+        
+        .seal {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #c9b037 0%, #8b6914 100%);
+            border-radius: 50%;
+            border: 3px solid #6b5010;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #2c1810;
+            text-align: center;
+            line-height: 1.2;
+            padding: 10px;
+        }
+        
+        .seal::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border: 2px solid rgba(107,80,16,0.3);
+            border-radius: 50%;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px double #8b7355;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header-title {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #4a3425;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        
+        .office-title {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #6b5540;
+            margin: 5px 0 0 0;
+            text-transform: uppercase;
+        }
+        
+        .greeting {
+            font-weight: 600;
+            color: #2c1810;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .body-text {
+            color: #2c1810;
+            line-height: 1.8;
+            font-size: 16px;
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+        
+        .emphasis {
+            font-weight: 600;
+            color: #8b4513;
+        }
+        
+        .exclamation {
+            font-weight: 700;
+            color: #6b4423;
+        }
+        
+        .section-header {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c1810;
+            margin: 30px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #8b7355;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkmark {
+            color: #2d5016;
+            font-size: 24px;
+        }
+        
+        .subsection {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4a3425;
+            margin: 20px 0 10px 0;
+            font-style: italic;
+        }
+        
+        .requirement-list {
+            margin: 10px 0 10px 20px;
+            padding-left: 20px;
+        }
+        
+        .requirement-list li {
+            color: #2c1810;
+            line-height: 1.8;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .requirement-list li strong {
+            color: #6b4423;
+        }
+        
+        .indent {
+            padding-left: 25px;
+            font-size: 15px;
+            color: #4a3425;
+            line-height: 1.7;
+        }
+        
+        .date-option {
+            background: rgba(139,115,85,0.1);
+            padding: 8px 15px;
+            margin: 8px 0;
+            border-left: 3px solid #8b7355;
+            font-size: 15px;
+        }
+        
+        .recommendation {
+            background: rgba(45,80,22,0.08);
+            padding: 12px 20px;
+            border-left: 4px solid #2d5016;
+            margin: 15px 0;
+            font-weight: 600;
+            color: #2d5016;
+        }
+        
+        .signature-section {
+            margin-top: 40px;
+            border-top: 2px solid #8b7355;
+            padding-top: 20px;
+        }
+        
+        .signature-line {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: #2c1810;
+            margin-bottom: 5px;
+        }
+        
+        .signature-title {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-style: italic;
+            color: #6b5540;
+            margin: 2px 0;
+        }
+        
+        .postscript {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(139,115,85,0.3);
+            font-style: italic;
+            font-size: 15px;
+            color: #4a3425;
+            line-height: 1.7;
+        }
+        
+        .attachment-note {
+            margin-top: 30px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: #6b5540;
+            padding: 12px;
+            background: rgba(139,115,85,0.1);
+            border: 1px solid #8b7355;
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #8b7355;
+        }
+        
+        .corner-decoration.top-left {
+            top: 15px;
+            left: 15px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .corner-decoration.top-right {
+            top: 15px;
+            right: 15px;
+            border-left: none;
+            border-bottom: none;
+        }
+        
+        .corner-decoration.bottom-left {
+            bottom: 15px;
+            left: 15px;
+            border-right: none;
+            border-top: none;
+        }
+        
+        .corner-decoration.bottom-right {
+            bottom: 15px;
+            right: 15px;
+            border-left: none;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="letter-container">
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration top-right"></div>
+        <div class="corner-decoration bottom-left"></div>
+        <div class="corner-decoration bottom-right"></div>
+        
+        <div class="seal">
+            STRIXHAVEN<br>GROUNDS &amp;<br>FACILITIES
+        </div>
+        
+        <div class="header">
+            <h1 class="header-title">Official Response</h1>
+            <p class="office-title">Office of Grounds and Facilities</p>
+        </div>
+        
+        <p class="greeting">To the Student Organizers of the Proposed Alchemical Competition Event,</p>
+        
+        <p class="body-text">
+            <span class="exclamation">Stone and starlight!</span> I must confess, when my assistant informed me that first-year students had submitted a stadium request, I was prepared to file it under "ambitious but structurally unsound." However, after reviewing your proposal (twice, mind you) I find myself genuinely impressed by the structural integrity of your planning.
+        </p>
+        
+        <p class="body-text">Your letter demonstrates:</p>
+        <ul class="requirement-list">
+            <li><span class="emphasis">Proper foundation work:</span> Clear event concept with educational merit</li>
+            <li><span class="emphasis">Load-bearing partnerships:</span> Multiple campus organizations and businesses involved</li>
+            <li><span class="emphasis">Adequate support struts:</span> Security arrangements, faculty awareness, community engagement</li>
+        </ul>
+        
+        <p class="body-text">
+            This is solid as bedrock planning for students of any year, let alone first-years.
+        </p>
+        
+        <h2 class="section-header">
+            <span class="checkmark">✓</span>
+            PRELIMINARY APPROVAL GRANTED
+        </h2>
+        
+        <p class="body-text">
+            I am provisionally approving your request for Strixhaven Stadium, contingent on the following reinforcements to your structural plan:
+        </p>
+        
+        <h3 class="subsection">Required Documentation (Foundation First!):</h3>
+        
+        <ol class="requirement-list">
+            <li>
+                <strong>Faculty Sponsor Signature</strong>
+                <div class="indent">You'll need at least one professor to officially oversee the event</div>
+                <div class="indent">Based on your proposal, Professor Sharpbeak seems a likely candidate</div>
+                <div class="indent">Submit signed sponsorship form to my office within one week</div>
+            </li>
+            
+            <li>
+                <strong>Participating Organization Confirmations</strong>
+                <div class="indent">Written agreements from: Firejolt Café, Iron-Lifters Society, and any other major participants</div>
+                <div class="indent">I see you've already engaged with Ellina Tanglewood that is an excellent load-bearing choice!</div>
+                
+            </li>
+            
+            <li>
+                <strong>Safety &amp; Logistics Plan</strong>
+                <div class="indent">Detailed station layouts (I'll provide stadium grid map)</div>
+                <div class="indent">Emergency egress routes</div>
+                <div class="indent">Magical containment protocols for alchemical demonstrations</div>
+                <div class="indent">Crowd management strategy</div>
+            </li>
+            
+            <li>
+                <strong>Insurance &amp; Liability Waiver</strong>
+                <div class="indent">Standard university form for student-organized events</div>
+                <div class="indent">Available at my office or the Student Activities Bureau</div>
+            </li>
+        </ol>
+        
+        <h2 class="section-header">Stadium Access &amp; Resources Available:</h2>
+        
+        <p class="body-text">Once final approval is secured, you'll have access to:</p>
+        
+        <ul class="requirement-list">
+            <li><span class="emphasis">Primary Arena Floor:</span> Your relay race stations and main competition area</li>
+            <li><span class="emphasis">South Concourse:</span> Suitable for auxiliary stations and vendor areas</li>
+            <li><span class="emphasis">Seating Capacity:</span> Up to 5,000 spectators (we can discuss scaling based on expected attendance)</li>
+            <li><span class="emphasis">Magical Infrastructure:</span> Built-in amplification crystals for announcements, illumination arrays, weather wards</li>
+            <li><span class="emphasis">Equipment Storage:</span> Access to tables, platforms, safety barriers</li>
+            <li><span class="emphasis">My Engineering Expertise:</span> I'll personally consult on optimal station placement for flow and safety</li>
+        </ul>
+        
+        <h2 class="section-header">Personal Notes:</h2>
+        
+        <p class="body-text">
+            I've had the pleasure of working with young Aurora on various projects, and if this event maintains the same level of thoughtful engineering, it will be something special. Your emphasis on cross-college cooperation and community building aligns perfectly with what the stadium was designed to foster.
+        </p>
+        
+        <p class="body-text">
+            Also, I noticed your letter mentioned Zanther Bowen as host. <span class="exclamation">Bold choice!</span> The boy has charisma that could convince a boulder to roll uphill, but make sure someone's managing the actual logistics. Charisma without structure leads to catastrophic foundation failure.
+        </p>
+        
+        <p class="body-text">
+            I'm available for consultation during my office hours (Dawn through Mid-Morning, Ground Floor of the Stadium, East Maintenance Wing) or by appointment. Simply send word via campus guide or leave a message with my assistant.
+        </p>
+        
+        <p class="body-text" style="font-weight: 600; font-size: 18px; margin-top: 25px;">
+            <span class="exclamation">Let's build this proper-like.</span>
+        </p>
+        
+        <div class="signature-section">
+            <p class="signature-line">Master Thrum "Boulder-Eye" Irondelve</p>
+            <p class="signature-title">Master of Grounds and Facilities</p>
+            <p class="signature-title">Keeper of Structural Integrity</p>
+            <p class="signature-title">Strixhaven University</p>
+        </div>
+        
+        <div class="postscript">
+            <p><strong>P.S.</strong> - I understand Dean Uvilda rejected your earlier proposal. After reviewing this version, I see no structural flaws. You've done the foundation work properly. But I also know Uvilda will find something to refine until the event date passes entirely. So I forwarded it to Dean Nassari instead. I've handled enough repair requisitions from their college to know they appreciate events with genuine impact. Your relay race should be positively manageable by comparison. Nassari approves projects that transform spaces and create experiences. Trust me on this one: right project, right dean. Foundation first, but you also need someone willing to actually build the thing.</p>
+        </div>
+        
+        <div class="postscript">
+            <p><strong>P.P.S.</strong> - If you need any ground-shaping work for your stations, Aurora's already proven herself skilled with earth magic. She might appreciate being involved beyond just setup labor.</p>
+        </div>
+    </div>
+</body>
+</html>
