@@ -430,6 +430,16 @@ body::before{
     }
 }
 
+.warning-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #856404;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px
+}
+
 .bottom-stories {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -632,50 +642,12 @@ body::before{
     }
 }
 
-.hidden-ink-trigger {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
-    line-height: 1;
-    background: #2c2012;
-    color: #F8F5DE;
-    border: 2px solid #DAA520;
-    padding: 6px 8px;
-    cursor: pointer;
-    opacity: .8;
-    transition: opacity .2s ease
-}
-
 .ink-hotspot{
-    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=24845'), pointer;
+    cursor: url('https://www.rw-designer.com/cursor-extern.php?id=24845'), pointer;
     user-select: none;
     display: inline-block;
     position: relative;
     z-index: 2;
-}
-
-.hidden-ink-trigger:hover {
-    opacity: 1
-}
-
-.hidden-ink-panel {
-    margin: 24px 30px;
-    padding: 16px;
-    border: 2px dashed #8B4513;
-    background: rgba(248, 245, 222, .85);
-    box-shadow: inset 0 0 12px rgba(139, 69, 19, .15)
-}
-
-.hidden-ink-title {
-    font-family: 'Cinzel Decorative', serif;
-    margin-bottom: 8px
-}
-
-.hidden-ink-text {
-    font-size: 14px;
-    line-height: 1.6
 }
 
 .mote {
@@ -872,3 +844,15 @@ body::before{
 .btn:hover{ filter: brightness(1.03) }
 
 .modal-result{ margin-top: 12px; font-weight: 600 }
+
+/* === Keyboard focus visibility (accessibility) === */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.ink-hotspot:focus-visible,
+[data-glossary]:focus-visible,
+[tabindex]:focus-visible,
+.modal-input:focus-visible {
+    outline: 2px solid #DAA520;
+    outline-offset: 2px;
+}

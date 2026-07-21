@@ -29,70 +29,100 @@ document.addEventListener('DOMContentLoaded', () => {
       p.appendChild(box);
     });
 
-    // Hidden Ink trigger
-    const header = document.querySelector('.header');
-    const ink = document.getElementById('hidden-ink');
-    if (header && ink) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'hidden-ink-trigger';
-        btn.setAttribute('aria-controls', 'hidden-ink');
-        btn.setAttribute('aria-expanded', 'false');
-        btn.textContent = 'Reveal Hidden Ink';
+    // === Glossary tooltips (single tooltip, viewport-aware, mouse + keyboard + touch) ===
+    (function () {
+      let activeTip = null, activeTerm = null, tipSeq = 0, lastTouch = 0;
 
-        // Slight random nudge so it feels "hard to find" but still discoverable
-        const dx = Math.floor(Math.random() * 24) - 12;
-        const dy = Math.floor(Math.random() * 10);
-        btn.style.right = 12 + dx + 'px';
-        btn.style.top = 8 + dy + 'px';
+      // Make terms keyboard-focusable so the definition is reachable without a mouse
+      document.querySelectorAll('[data-glossary]').forEach(t => {
+        if (!t.hasAttribute('tabindex')) t.setAttribute('tabindex', '0');
+      });
 
-        btn.addEventListener('click', () => {
-            const isHidden = ink.hasAttribute('hidden');
-            if (isHidden) {
-                ink.removeAttribute('hidden');
-                btn.setAttribute('aria-expanded', 'true');
-                btn.textContent = 'Hide Hidden Ink';
-                ink.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                ink.setAttribute('hidden', '');
-                btn.setAttribute('aria-expanded', 'false');
-                btn.textContent = 'Reveal Hidden Ink';
-            }
-        });
+      function removeTip() {
+        if (!activeTip) return;
+        if (activeTerm) activeTerm.removeAttribute('aria-describedby');
+        activeTip.remove();
+        activeTip = null;
+        activeTerm = null;
+      }
 
-        header.appendChild(btn);
-    }
-    // === Glossary tooltips ===
-    const onTooltipOver = e => {
-      const t = e.target.closest('[data-glossary]');
-      if (!t) return;
-      const tip = document.createElement('div');
-      tip.className = 'gloss';
-      // Minimal inline styles so it works even without CSS
-      tip.style.position = 'absolute';
-      tip.style.zIndex = '1000';
-      tip.style.display = 'none';
-      tip.style.background = '#F8F5DE';
-      tip.style.border = '1px solid #8B4513';
-      tip.style.padding = '8px 10px';
-      tip.style.fontSize = '12px';
-      tip.style.maxWidth = '260px';
-      tip.style.lineHeight = '1.4';
-      tip.style.boxShadow = '2px 2px 8px rgba(0,0,0,.2)';
-      tip.textContent = t.getAttribute('data-glossary');
-      document.body.appendChild(tip);
-      const r = t.getBoundingClientRect();
-      const left = Math.min(window.scrollX + r.left, window.scrollX + window.innerWidth - tip.offsetWidth - 10);
-      const top = window.scrollY + r.bottom + 6;
-      tip.style.left = left + 'px';
-      tip.style.top = top + 'px';
-      tip.style.display = 'block';
-      const hide = () => tip.remove();
-      t.addEventListener('mouseleave', hide, { once: true });
-      t.addEventListener('blur', hide, { once: true });
-    };
-    document.addEventListener('mouseover', onTooltipOver);
-    document.addEventListener('focusin', onTooltipOver);
+      function showTip(term) {
+        if (activeTerm === term) return;   // already showing this exact term
+        removeTip();                        // never more than one at a time
+
+        const tip = document.createElement('div');
+        tip.className = 'gloss';
+        tip.id = 'gloss-tip-' + (++tipSeq);
+        tip.setAttribute('role', 'tooltip');
+        tip.textContent = term.getAttribute('data-glossary');
+        // Inline fallbacks so it stays readable even if the CSS fails to load
+        tip.style.position = 'absolute';
+        tip.style.zIndex = '1000';
+        tip.style.display = 'block';
+        tip.style.background = '#F8F5DE';
+        tip.style.border = '1px solid #8B4513';
+        tip.style.padding = '8px 10px';
+        tip.style.fontSize = '12px';
+        tip.style.maxWidth = '260px';
+        tip.style.lineHeight = '1.4';
+        tip.style.boxShadow = '2px 2px 8px rgba(0,0,0,.2)';
+        document.body.appendChild(tip);
+
+        // Position below the term by default; flip above if it would fall off the
+        // bottom of the screen, and clamp horizontally so it stays in view.
+        const r = term.getBoundingClientRect();
+        const margin = 8;
+        const maxLeft = window.scrollX + window.innerWidth - tip.offsetWidth - margin;
+        const left = Math.max(window.scrollX + margin, Math.min(window.scrollX + r.left, maxLeft));
+        let top = window.scrollY + r.bottom + 6;
+        if (r.bottom + tip.offsetHeight + 6 > window.innerHeight && r.top - tip.offsetHeight - 6 > 0) {
+          top = window.scrollY + r.top - tip.offsetHeight - 6;
+        }
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+
+        term.setAttribute('aria-describedby', tip.id);
+        activeTip = tip;
+        activeTerm = term;
+      }
+
+      // Mouse hover (ignore the synthetic mouse events a tap fires right after touch)
+      document.addEventListener('mouseover', e => {
+        if (Date.now() - lastTouch < 1000) return;
+        const t = e.target.closest('[data-glossary]');
+        if (t) showTip(t);
+      });
+      document.addEventListener('mouseout', e => {
+        const t = e.target.closest('[data-glossary]');
+        if (!t || t !== activeTerm) return;
+        if (e.relatedTarget && t.contains(e.relatedTarget)) return; // still inside the term
+        removeTip();
+      });
+
+      // Keyboard focus (a tap also focuses the term, so ignore focus right after a
+      // touch and let the click handler toggle it instead)
+      document.addEventListener('focusin', e => {
+        if (Date.now() - lastTouch < 1000) return;
+        const t = e.target.closest('[data-glossary]');
+        if (t) showTip(t);
+      });
+      document.addEventListener('focusout', e => {
+        const t = e.target.closest('[data-glossary]');
+        if (t && t === activeTerm) removeTip();
+      });
+
+      // Touch: tapping a term reveals its definition (showTip is idempotent, so the
+      // extra synthetic events a tap fires do no harm); tap elsewhere or press Escape
+      // to close.
+      document.addEventListener('touchstart', () => { lastTouch = Date.now(); }, { passive: true });
+      document.addEventListener('click', e => {
+        const t = e.target.closest('[data-glossary]');
+        if (t) showTip(t); else removeTip();
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') removeTip();
+      });
+    })();
 
     // === Hidden Ink single-trigger with hint and sparkle ===
     const notes = Array.from(document.querySelectorAll('[data-ink-note]'));
@@ -172,10 +202,15 @@ document.addEventListener('DOMContentLoaded', () => {
         pageFlash();
       }
 
-      spot.addEventListener('click', e => { e.preventDefault(); revealAll(); }, { once:true });
+      spot.addEventListener('click', e => {
+        e.preventDefault();
+        // A mobile long-press opens the challenge instead; don't also reveal the ink.
+        if (spot.dataset.longpress === '1') { delete spot.dataset.longpress; return; }
+        revealAll();
+      });
       spot.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); revealAll(); }
-      }, { once:true });
+      });
     }
     // === Konami Easter Egg: Save Challenge ===
     (function(){
@@ -261,6 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       function startChallenge(){
+        ensureModal();
+        if (backdrop.classList.contains('open')) return; // one challenge at a time
         const save = SAVES[Math.floor(Math.random()*SAVES.length)];
         const dc = 10 + Math.floor(Math.random()*9); // 10..18
         current = { save, dc };
@@ -315,7 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const start = (e) => {
           const t = e.touches?.[0]; if (!t) return;
           startX = t.clientX; startY = t.clientY;
-          pressTimer = setTimeout(() => { startChallenge(); }, 900); // hold ~0.9s
+          pressTimer = setTimeout(() => {
+            spotTouch.dataset.longpress = '1';           // tell the click handler to skip reveal
+            startChallenge();
+            setTimeout(() => { delete spotTouch.dataset.longpress; }, 700); // clear if no click follows
+          }, 900); // hold ~0.9s
         };
         const cancel = () => { if (pressTimer) clearTimeout(pressTimer); };
         const move = (e) => {
@@ -335,18 +376,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const wanted = ['U','U','D','D','L','R','L','R'];
         let seq = [];
-        let startX = 0, startY = 0;
+        let startX = 0, startY = 0, startT = 0;
 
         const onStart = (e) => {
           const t = e.touches?.[0]; if (!t) return;
-          startX = t.clientX; startY = t.clientY;
+          startX = t.clientX; startY = t.clientY; startT = Date.now();
         };
         const onEnd = (e) => {
           const t = e.changedTouches?.[0]; if (!t) return;
           const dx = t.clientX - startX;
           const dy = t.clientY - startY;
           const ax = Math.abs(dx), ay = Math.abs(dy);
-          if (ax < 24 && ay < 24) return; // too small, ignore
+          const dt = Date.now() - startT;
+          if (Math.max(ax, ay) < 30) return;                      // too small, ignore taps
+          if (dt > 700) return;                                   // too slow, likely a scroll
+          if (Math.min(ax, ay) > Math.max(ax, ay) * 0.6) return;  // too diagonal, ambiguous
           const dir = ay > ax ? (dy < 0 ? 'U' : 'D') : (dx < 0 ? 'L' : 'R');
           seq.push(dir);
           if (seq.length > 8) seq = seq.slice(-8); // keep last 8

@@ -1,6 +1,8 @@
 #!/bin/bash
 # Usage: ./new-edition.sh
-# Clones current index.html into /editions, updates editions.json, fixes paths, removes archive link.
+# Clones the current index.html into /editions, updates editions.json, fixes paths,
+# and removes the archive link. It shows a summary and asks you to confirm before
+# writing anything, and it will not overwrite an existing edition without approval.
 
 set -e
 
@@ -8,6 +10,10 @@ set -e
 if ! command -v jq >/dev/null 2>&1; then
   echo "Missing jq. Install it, then re-run."
   echo "macOS: brew install jq"
+  exit 1
+fi
+if ! command -v perl >/dev/null 2>&1; then
+  echo "Missing perl. Install it, then re-run."
   exit 1
 fi
 
@@ -31,7 +37,46 @@ DEST_DIR="editions"
 DEST="$DEST_DIR/${SLUG}.html"
 JSON="$DEST_DIR/editions.json"
 
+# The source page must exist
+if [ ! -f "$SRC" ]; then
+  echo "Error: $SRC not found. Run this script from the project root."
+  exit 1
+fi
+
 mkdir -p "$DEST_DIR"
+
+# Ensure editions.json exists
+if [ ! -f "$JSON" ]; then
+  echo "[]" > "$JSON"
+fi
+
+# Gather any warnings so they can be shown in the summary
+WARN=""
+if [ -f "$DEST" ]; then
+  WARN="${WARN}  WARNING: $DEST already exists and WILL BE OVERWRITTEN.\n"
+fi
+if jq -e --arg slug "$SLUG" 'any(.[]; .slug == $slug)' "$JSON" >/dev/null 2>&1; then
+  WARN="${WARN}  WARNING: slug '$SLUG' is already listed in $JSON; a duplicate entry WILL BE ADDED.\n"
+fi
+
+# Confirmation summary before writing anything
+echo
+echo "About to archive the current issue:"
+echo "  Title:           $TITLE"
+echo "  Slug:            $SLUG"
+echo "  Issue number:    $ISSUE"
+echo "  New file:        $DEST"
+echo "  Root index.html: left unchanged"
+if [ -n "$WARN" ]; then
+  echo
+  printf "%b" "$WARN"
+fi
+echo
+read -r -p "Proceed? Type yes to confirm: " GO
+if [ "$GO" != "yes" ]; then
+  echo "Cancelled. No files changed."
+  exit 1
+fi
 
 # Clone index.html into editions/[slug].html
 # 1) Remove archive link anchor (and its <p> if wrapped)
@@ -43,11 +88,6 @@ perl -0777 -pe '
   s{(href|src)=\"\./assets/}{$1=\"../assets/}g;
   s{(href|src)=\"\./images/}{$1=\"../images/}g;
 ' "$SRC" > "$DEST"
-
-# Ensure editions.json exists
-if [ ! -f "$JSON" ]; then
-  echo "[]" > "$JSON"
-fi
 
 # Prepend new entry to editions.json
 TMP=$(mktemp)
