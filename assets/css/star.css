@@ -430,6 +430,16 @@ body::before{
     }
 }
 
+.warning-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #856404;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px
+}
+
 .bottom-stories {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -649,7 +659,7 @@ body::before{
 }
 
 .ink-hotspot{
-    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=24845'), pointer;
+    cursor: url('https://www.rw-designer.com/cursor-extern.php?id=24845'), pointer;
     user-select: none;
     display: inline-block;
     position: relative;

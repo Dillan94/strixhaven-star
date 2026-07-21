@@ -215,14 +215,14 @@ Status as of the last review date at the top. Nothing here stops the site from w
 the page loads and all major features function. These are refinements.
 
 ### Broken relative to intent
-1. Custom cursor loads over insecure `http://` (star.css, `.ink-hotspot`). On the live
-   `https` site, browsers block mixed-content requests, so the fancy cursor never loads
-   and it falls back to a normal pointer. It also depends on an external site
-   (rw-designer.com) that could disappear. Fix options: use an `https` URL, host the
-   cursor locally, or accept the pointer fallback.
-2. `.warning-title` is used in the HTML ("Campus Safety Reminder") but has no matching
-   rule in star.css, so that heading renders as plain text instead of a styled title.
-   The old `historical/first-attempt.html` shows what it used to look like.
+1. FIXED 2026-07-21: the custom cursor URL was changed from `http://` to `https://`
+   (star.css, `.ink-hotspot`), so it is no longer blocked as mixed content on the live
+   site. It still depends on an external site (rw-designer.com); if that site ever fails,
+   the cursor simply falls back to a normal pointer. Hosting the cursor locally is still
+   an option for later.
+2. FIXED 2026-07-21: the missing `.warning-title` rule was added to star.css (matching
+   the look from `historical/first-attempt.html`), so the "Campus Safety Reminder"
+   heading is styled as a proper title again.
 
 ### Cleanup (obsolete or unreachable code)
 3. Old "Reveal Hidden Ink" button. `star.js` (roughly lines 32 to 64) looks for an
@@ -233,10 +233,10 @@ the page loads and all major features function. These are refinements.
    the working hidden-ink feature; it simply does nothing.
 
 ### Risky or fragile
-4. Invalid HTML nesting in `index.html`: a `<section class="ink-notes">` (block content)
-   sits inside a `<p>` in the Campus Whispers area. Browsers tolerate this today, but it
-   is invalid and can cause odd spacing or future breakage. Fix by moving the section
-   out of the paragraph.
+4. FIXED 2026-07-21: in `index.html` the `<section class="ink-notes">` was moved out of
+   the surrounding `<p>` in the Campus Whispers area, so the HTML is valid. The clues
+   still sit in the same place and still reveal correctly. (The archived edition file is
+   a frozen snapshot and still has the old nesting, which is fine and left as is.)
 5. Long-press conflict on mobile: long-pressing the hidden-ink hotspot opens the Konami
    modal, but the browser may also fire a normal tap afterward, which reveals the hidden
    ink at the same time. Minor, but the two actions overlap.
@@ -304,3 +304,6 @@ reliable history.
 
 - 2026-07-21: Full review of the repository. Created this maintenance file. No site
   files changed. Findings recorded in section 8.
+- 2026-07-21: Applied three approved targeted fixes. Added the `.warning-title` rule to
+  star.css, changed the hidden-ink cursor URL from http to https in star.css, and moved
+  the ink-notes section out of a paragraph in index.html. See findings 1, 2, and 4.
