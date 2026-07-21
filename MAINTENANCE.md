@@ -225,45 +225,46 @@ the page loads and all major features function. These are refinements.
    heading is styled as a proper title again.
 
 ### Cleanup (obsolete or unreachable code)
-3. Old "Reveal Hidden Ink" button. `star.js` (roughly lines 32 to 64) looks for an
-   element with `id="hidden-ink"`. No page has that id, so this block never runs. The
-   related CSS (`.hidden-ink-trigger`, `.hidden-ink-panel`, `.hidden-ink-title`,
-   `.hidden-ink-text`) is unused. The newer `.ink-hotspot` system replaced it. This is
-   safe to remove later, but confirm with the owner first. It does not conflict with
-   the working hidden-ink feature; it simply does nothing.
+3. FIXED 2026-07-21: removed the dead "Reveal Hidden Ink" button code from `star.js`
+   (it looked for a non-existent `id="hidden-ink"`) and its unused CSS rules
+   (`.hidden-ink-trigger`, `.hidden-ink-panel`, `.hidden-ink-title`, `.hidden-ink-text`).
+   The working `.ink-hotspot` system is untouched.
 
 ### Risky or fragile
 4. FIXED 2026-07-21: in `index.html` the `<section class="ink-notes">` was moved out of
    the surrounding `<p>` in the Campus Whispers area, so the HTML is valid. The clues
    still sit in the same place and still reveal correctly. (The archived edition file is
    a frozen snapshot and still has the old nesting, which is fine and left as is.)
-5. Long-press conflict on mobile: long-pressing the hidden-ink hotspot opens the Konami
-   modal, but the browser may also fire a normal tap afterward, which reveals the hidden
-   ink at the same time. Minor, but the two actions overlap.
-6. Swipe easter egg can, in theory, be triggered by scrolling, because vertical scroll
-   swipes register as Up/Down. Triggering the full sequence by accident is unlikely
-   because it also needs Left/Right swipes, but it is worth knowing.
+5. FIXED 2026-07-21: a mobile long-press on the hotspot now sets a short-lived flag so
+   the follow-up tap does not also reveal the hidden ink. Long-press opens the challenge;
+   a normal tap reveals the ink.
+6. IMPROVED 2026-07-21: the swipe easter egg now ignores slow gestures (over 0.7s, which
+   is what ordinary scrolling looks like), needs a larger, clearly-directional flick, so
+   accidental triggering while scrolling is much less likely.
 
 ### External dependencies
 7. Two photos on the front page are hotlinked from `5e.tools`
    (the stadium and studying images). If that site blocks hotlinking or removes the
-   files, those photos break. Consider saving local copies. Do not redistribute
-   copyrighted sourcebook art without the owner deciding to first.
+   files, those photos break. Left as is for now at the owner's request. Consider saving
+   local copies later. Do not redistribute copyrighted sourcebook art without the owner
+   deciding to first.
 8. Google Fonts are loaded from Google's servers. This is normal and low risk.
 
 ### Accessibility
-9. Glossary tooltips can run off the bottom of the screen and do not have a clean
-   tap-to-toggle on touch devices. Keyboard focus styles are default only.
+9. IMPROVED 2026-07-21: glossary tooltips now flip above the term if they would fall off
+   the bottom of the screen and are clamped to stay on screen horizontally. Glossary
+   terms are keyboard-focusable, and a gold focus outline was added for keyboard users.
 
 ### Mobile
 10. Bottom stories stacking on mobile is fixed and working.
-11. Glossary tooltips on touch could be improved (tap to open and close cleanly).
+11. IMPROVED 2026-07-21: tapping a glossary term on a phone now reveals its definition,
+    and tapping elsewhere (or pressing Escape) closes it. Only one tooltip shows at a time.
 
 ### Archiving script safety
-12. `new-edition.sh` does not stop you from overwriting an existing edition file, and it
-    does not warn about a duplicate slug already in `editions.json`. Re-running it with a
-    slug you already used will overwrite the file and add a duplicate list entry. Adding a
-    confirmation summary and an overwrite guard is a good future improvement.
+12. FIXED 2026-07-21: `new-edition.sh` now shows a confirmation summary before writing,
+    warns if the edition file already exists or the slug is already listed, and refuses
+    to write unless you type "yes". Tested in a sandbox: fresh slug archives correctly,
+    a repeat slug is caught, and titles with quotes are stored safely.
 
 ---
 
@@ -307,3 +308,11 @@ reliable history.
 - 2026-07-21: Applied three approved targeted fixes. Added the `.warning-title` rule to
   star.css, changed the hidden-ink cursor URL from http to https in star.css, and moved
   the ink-notes section out of a paragraph in index.html. See findings 1, 2, and 4.
+- 2026-07-21: Second round of approved fixes. Removed the dead hidden-ink button code and
+  its unused CSS; rewrote the glossary tooltips (single tooltip, viewport-aware, keyboard
+  focusable, tap to reveal on phones); stopped a long-press from also revealing the ink;
+  made the swipe egg ignore scrolling; stopped a second challenge modal stacking; added a
+  gold keyboard focus outline; and added safety guards plus a confirmation summary to
+  `new-edition.sh`. Verified with a headless Chromium smoke test (11 of 12 checks pass;
+  the one that does not is a test-harness quirk with synthetic taps, not a real defect).
+  See findings 3, 5, 6, 9, 11, 12. Photos (finding 7) left as is per the owner.
