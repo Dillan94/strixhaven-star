@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (document.body.hasAttribute('data-no-easter-eggs')) return;
       // Config you change weekly
       const WEEKLY = {
-        inspirationCode: 'GILDED MUFFIN',      // Tell DM this on success
+        inspirationCode: 'Sec-RAT-ary',      // Tell DM this on success
       };
       const SAVES = ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma'];
       const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
