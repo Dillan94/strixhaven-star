@@ -154,6 +154,11 @@ Change `inspirationCode` when you want a new secret phrase. Because `star.js` is
 by every page, this same code currently applies to all issues, including archived ones.
 Per-issue codes are a possible future improvement (see section 9).
 
+**Turning easter eggs off for one edition.** Add the attribute `data-no-easter-eggs` to
+the `<body>` tag of any issue's HTML (for example `<body data-no-easter-eggs>`). That page
+then skips the Konami saving-throw challenge and the hidden-ink reveal. Other pages, which
+do not have the attribute, keep their easter eggs. Issue #36404 uses this.
+
 ---
 
 ## 7. Publishing workflow
@@ -308,6 +313,10 @@ reliable history.
 - 2026-07-21: Applied three approved targeted fixes. Added the `.warning-title` rule to
   star.css, changed the hidden-ink cursor URL from http to https in star.css, and moved
   the ink-notes section out of a paragraph in index.html. See findings 1, 2, and 4.
+- 2026-07-21: Published Issue #36404 "End-of-Term Championship Special" (new front page in
+  index.html; previous issue preserved in editions/2025-07-22.html). Added a per-edition
+  `data-no-easter-eggs` toggle in star.js and enabled it on this issue at the owner's
+  request, so #36404 has no easter eggs while other editions keep theirs.
 - 2026-07-21: Second round of approved fixes. Removed the dead hidden-ink button code and
   its unused CSS; rewrote the glossary tooltips (single tooltip, viewport-aware, keyboard
   focusable, tap to reveal on phones); stopped a long-press from also revealing the ink;

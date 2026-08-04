@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const notes = Array.from(document.querySelectorAll('[data-ink-note]'));
     // Prefer an explicit trigger, else take the first hotspot
     const spot = document.querySelector('[data-ink="trigger"]') || document.querySelector('.ink-hotspot');
-    if (notes.length && spot) {
+    if (notes.length && spot && !document.body.hasAttribute('data-no-easter-eggs')) {
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       spot.setAttribute('tabindex','0');
@@ -214,6 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // === Konami Easter Egg: Save Challenge ===
     (function(){
+      // Per-edition opt-out: add data-no-easter-eggs to <body> to disable this challenge
+      if (document.body.hasAttribute('data-no-easter-eggs')) return;
       // Config you change weekly
       const WEEKLY = {
         inspirationCode: 'GILDED MUFFIN',      // Tell DM this on success
